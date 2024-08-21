@@ -227,6 +227,19 @@ rename statename StateName
 
 save "$path/TaxRates.dta" , replace
 
+clear
+import delimited using "$path\alldates.csv", varnames(1) 
+gen date = mdy(month, day, year)
+format date %td
+drop day month year
+merge 1:1 date using "$path/exrate2.dta"
+sort date
+drop if _merge == 2
+replace _ca = _ca[_n+1] if _ca == .
+replace _ca = _ca[_n+1] if _ca == .
+drop _merge
+save "$path/exrate3.dta" , replace
+
 use "$path/StateNames1.dta" , clear
 
 merge m:1 StateName using "$path/TaxRates.dta"
@@ -237,6 +250,11 @@ gen StateRateWages = .
 foreach i of numlist 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018 2019{
 replace StateRateWages = tr`i' if year == `i'
 }
+
+merge m:1 date using "$path/exrate3.dta"
+drop if _merge == 2
+drop _merge
+replace purse = purse/_ca if Canada == 1
 
 save "$path/StateNames2.dta" , replace
 
