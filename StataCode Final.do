@@ -421,13 +421,11 @@ keep if Canada == 0
 gen increase = 0
 replace increase = 1 if year > 2012 & StateName == "California"
 
-drop if StateName == "North Carolina" & year > 2011
-drop if StateName == "Kentucky" & year > 2016
-drop if StateName == "Minnesota" & year > 2010
-drop if StateName == "Illinois" & year > 2012
-drop if StateName == "Oregon" & year > 2009
-drop if StateName == "North Dakota" & year > 2009
-drop if StateName == "Ohio" & year > 2011
+drop if StateName == "North Carolina"
+drop if StateName == "Minnesota"
+drop if StateName == "Illinois"
+drop if StateName == "Oregon"
+drop if StateName == "North Dakota"
 
 keep if year < 2017
 
